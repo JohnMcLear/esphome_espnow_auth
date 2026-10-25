@@ -138,9 +138,9 @@ inline void espnow_init(uint8_t channel, bool wifi_coexist) {
     if (wifi_coexist) {
         // ESPHome's WiFi component has already started the radio.
         // Just pin the channel for ESP-NOW and initialise the protocol.
-        ESP_LOGI(TAG, "WiFi coexistence mode — using ESPHome WiFi stack");
+        ESP_LOGI(TAG, "WiFi coexistence mode: using ESPHome WiFi stack");
     } else {
-        // Standalone mode — bring up WiFi ourselves.
+        // Standalone mode: bring up WiFi ourselves.
         ret = nvs_flash_init();
         if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
             nvs_flash_erase();
