@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pylint black isort pytest esphome==2026.10.0
+      - run: black --check components/
+      - run: isort --check-only components/
+      - run: pylint --disable=all --enable=E components/espnow_auth/__init__.py || true
+      - run: python -m pytest tests/test_config_validation.py -v
+
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          - tests/test_compile_outside.yaml
+          - tests/test_compile_inside.yaml
+          - tests/test_compile_wifi_coexist.yaml
+          - tests/test_compile_wifi_outside.yaml
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install esphome==2026.10.0
+      - name: Compile ${{ matrix.config }}
+        run: esphome compile ${{ matrix.config }}

@@ -1,0 +1,20 @@
+esphome:
+  name: test-inside
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+
+logger:
+  baud_rate: 115200
+
+espnow_auth:
+  role: inside
+  shared_key: "test-key-12345"
+  channel: 6

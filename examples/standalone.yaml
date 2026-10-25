@@ -1,0 +1,23 @@
+## Standalone mode example (no WiFi, USB-only OTA)
+## Use this if you don't need network connectivity.
+
+esphome:
+  name: standalone-node
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+
+logger:
+  baud_rate: 115200
+
+espnow_auth:
+  role: outside  # or "inside"
+  shared_key: "change-me-to-a-real-secret"
+  channel: 1
